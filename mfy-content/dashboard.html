@@ -1,0 +1,76 @@
+{% extends "layouts/layout.html" %}
+
+{% block bodyArea %}
+    <br>
+    <br>
+    <br>
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="row">
+          <div class="col-xl-6">
+              <div class="card mb-4">
+                  <div class="card-header">
+                      <i class="fas fa-chart-area me-1"></i>
+                      Area Chart Example
+                  </div>
+                  <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+              </div>
+          </div>
+          <div class="col-xl-6">
+              <div class="card mb-4">
+                  <div class="card-header">
+                      <i class="fas fa-chart-bar me-1"></i>
+                      Bar Chart Example
+                  </div>
+                  <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+              </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Personel Listesi
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Adı Soyadı</th>
+                            <th>Pozisyon</th>
+                            <th>Departman</th>
+                            <th>Kimlik No</th>
+                            <th>Başlangıç Tarihi</th>
+                            <th>E-Posta</th>
+                            <th>Kodu</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Adı Soyadı</th>
+                            <th>Pozisyon</th>
+                            <th>Departman</th>
+                            <th>Kimlik No</th>
+                            <th>Başlangıç Tarihi</th>
+                            <th>E-Posta</th>
+                            <th>Kodu</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for per in personel %}
+                        <tr>
+                            <td>{{per.name}} {{per.surname}}</td>
+                            <td>{{per.unvan}}</td>
+                            <td>{{per.dept}}</td>
+                            <td>{{per.id_no}}</td>
+                            <td>{{per.date}}</td>
+                            <td>{{per.email}}</td>
+                            <td>{{per.username}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+{% endblock bodyArea %}

@@ -1,0 +1,75 @@
+{% extends "layouts/layout.html" %}
+{% block bodyArea %}
+    <div class="container" id="layoutSidenav_content" style="margin-top: 75px; margin-left: 400px;">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Personel Listesi
+            </div>
+            <script>
+                function updateStatus(checkbox) {
+                    const id = checkbox.id;
+                    const aktif = checkbox.checked ? 'X' : '';
+                    
+                    fetch(`/update_status/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ aktif: aktif })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const label = checkbox.parentElement.nextElementSibling.querySelector('label');
+                            label.textContent = checkbox.checked ? 'Aktif' : 'Pasif';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        checkbox.checked = !checkbox.checked; // Hata durumunda checkbox'ı eski haline getir
+                    });
+                }
+            </script>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Adı Soyadı</th>
+                            <th>Pozisyon</th>
+                            <th>Departman</th>
+                            <th>E-Posta</th>
+                            <th>Kodu</th>
+                            <th>Aktif</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Adı Soyadı</th>
+                            <th>Pozisyon</th>
+                            <th>Departman</th>
+                            <th>E-Posta</th>
+                            <th>Kodu</th>
+                            <th>Aktif</th>
+                            <th>Status</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for per in personel %}
+                        <tr>
+                            <td>{{per.name}} {{per.surname}}</a></td>
+                            <td>{{per.unvan}}</td>
+                            <td>{{per.dept}}</td>
+                            <td>{{per.email}}</td>
+                            <td>{{per.username}}</td>
+                            <td><input class="form-check-input" type="checkbox" name="{{per.id}}" id="{{per.id}}" value="X" {% if per.aktif %}checked{% endif %} onchange="updateStatus(this)"></td>
+                            <td><label class="form-check-label" for="{{ per.id }}">{% if per.aktif %}Aktif{% else %}Pasif{% endif %}</label></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock bodyArea %}
